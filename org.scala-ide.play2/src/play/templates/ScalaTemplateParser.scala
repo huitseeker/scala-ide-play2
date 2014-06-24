@@ -1,4 +1,4 @@
-package play.templates
+package play.twirl
 
 import scala.collection.mutable.ArrayBuffer
 import scala.util.parsing.input.OffsetPosition
@@ -12,10 +12,10 @@ import scala.annotation.elidable
 import scala.annotation.elidable._
 
 /**
- * ScalaTemplateParser is a recursive descent parser for a modified grammar of the Play2 template language as loosely defined [[http://www.playframework.com/documentation/2.1.x/ here]] and more rigorously defined by the original template parser, [[play.templates.ScalaTemplateCompiler.TemplateParser]].
- * ScalaTemplateParser is meant to be a near drop in replacement for [[play.templates.ScalaTemplateCompiler.TemplateParser]].
+ * ScalaTemplateParser is a recursive descent parser for a modified grammar of the Play2 template language as loosely defined [[http://www.playframework.com/documentation/2.1.x/ here]] and more rigorously defined by the original template parser, [[play.twirl.ScalaTemplateCompiler.TemplateParser]].
+ * ScalaTemplateParser is meant to be a near drop in replacement for [[play.twirl.ScalaTemplateCompiler.TemplateParser]].
  * 
- * The original grammar, as reversed-engineered from [[play.templates.ScalaTemplateCompiler.TemplateParser]], is defined as follows:
+ * The original grammar, as reversed-engineered from [[play.twirl.ScalaTemplateCompiler.TemplateParser]], is defined as follows:
  * {{{
  *   parser : comment? whitespace? ('@' parentheses+)? templateContent 
  *   templateContent : (importExpression | localDef | template | mixed)* 
@@ -92,7 +92,7 @@ import scala.annotation.elidable._
 
 class ScalaTemplateParser(val shouldParseInclusiveDot: Boolean) {
   
-  import play.templates.TreeNodes._
+  import play.twirl.TreeNodes._
   import scala.util.parsing.input.Positional
 
   sealed abstract class ParseResult

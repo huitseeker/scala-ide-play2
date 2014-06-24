@@ -24,7 +24,7 @@ import org.scalaide.play2.PlayPlugin
 import org.scalaide.play2.PlayProject
 import org.scalaide.play2.templateeditor.compiler.CompilerUsing
 import org.scalaide.play2.templateeditor.compiler.PositionHelper
-import play.templates.GeneratedSourceVirtual
+import play.twirl.compiler.GeneratedSourceVirtual
 import org.scalaide.editor.CompilationUnit
 import org.scalaide.editor.CompilationUnitProvider
 import org.scalaide.ui.internal.actions.ToggleScalaNatureAction

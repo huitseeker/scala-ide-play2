@@ -4,8 +4,8 @@ import scala.util.parsing.input.CharSequenceReader
 import scala.util.parsing.input.Positional
 import scala.util.parsing.input.OffsetPosition
 import scala.util.parsing.input.NoPosition
-import play.templates.ScalaTemplateParser
-import play.templates.TreeNodes._
+import play.twirl.ScalaTemplateParser
+import play.twirl.TreeNodes._
 
 /**
  * A helper for using tmeplate parser

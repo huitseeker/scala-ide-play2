@@ -4,10 +4,10 @@ import java.io.File
 import scala.util.Failure
 import scala.util.Try
 import org.scalaide.play2.PlayProject
-import play.templates.GeneratedSourceVirtual
-import play.templates.ScalaTemplateCompiler
-import play.templates.ScalaTemplateCompiler._
-import play.templates.TemplateCompilationError
+import play.twirl.compiler.GeneratedSourceVirtual
+import play.twirl.compiler.TwirlCompiler
+import play.twirl.compiler.TwirlCompiler._
+import play.twirl.compiler.TemplateCompilationError
 import scalax.file.Path
 import org.scalaide.play2.properties.PlayPreferences
 import org.scalaide.logging.HasLogger
@@ -15,7 +15,7 @@ import org.scalaide.logging.HasLogger
  * a helper for using template compiler
  */
 object CompilerUsing extends HasLogger {
-  val templateCompiler = ScalaTemplateCompiler
+  val templateCompiler = TwirlCompiler
   val defaultTemplateImports = """
 import models._
 import controllers._
@@ -41,8 +41,8 @@ import views.html._
         content,
         source,
         playProject.sourceDir,
-        "play.api.templates.Html",
-        "play.api.templates.HtmlFormat",
+        "play.api.twirl.Html",
+        "play.api.twirl.HtmlFormat",
         defaultTemplateImports + playProject.additionalTemplateImports(extension),
         inclusiveDot
       )

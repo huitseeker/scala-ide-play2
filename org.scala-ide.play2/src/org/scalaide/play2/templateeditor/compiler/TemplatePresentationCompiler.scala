@@ -10,7 +10,7 @@ import org.eclipse.jdt.internal.compiler.problem.DefaultProblem
 import scalax.file.Path
 import scala.tools.nsc.util.SourceFile
 import scala.tools.nsc.util.BatchSourceFile
-import play.templates.GeneratedSource
+import play.twirl.compiler.GeneratedSource
 import scala.tools.nsc.io.AbstractFile
 import scala.tools.nsc.io.VirtualFile
 import scala.tools.nsc.io.PlainFile
@@ -18,7 +18,7 @@ import java.io.File
 //import scala.tools.eclipse.util.EclipseFile
 //import scala.tools.eclipse.util.EclipseResource
 import org.scalaide.core.compiler.ScalaPresentationCompiler
-import play.templates.GeneratedSourceVirtual
+import play.twirl.compiler.GeneratedSourceVirtual
 import org.scalaide.logging.HasLogger
 import scala.util.Failure
 import scala.util.Success

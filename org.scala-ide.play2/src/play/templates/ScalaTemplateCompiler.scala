@@ -11,7 +11,7 @@ import scala.util.parsing.input.OffsetPosition
  *        4.2.b of the Apache2 license (Play2 is licensed under Apache2). 
  *        Specifically, 4.2.b in the Apache2 license states: '''You must cause any modified files to carry prominent notices stating that You changed the files'''.
  */
-package play.templates {
+package play.twirl {
 
   import scalax.file._
   import java.io.File
@@ -160,7 +160,7 @@ package play.templates {
   
   object ScalaTemplateCompiler {
 
-    import play.templates.TreeNodes._
+    import play.twirl.TreeNodes._
     import scala.util.parsing.input.CharSequenceReader
     import scala.util.parsing.combinator.JavaTokenParsers
 
@@ -296,8 +296,8 @@ package play.templates {
         Nil :+ """
 package """ :+ packageName :+ """
 
-import play.templates._
-import play.templates.TemplateMagic._
+import play.twirl._
+import play.twirl.TemplateMagic._
 
 """ :+ additionalImports :+ """
 /*""" :+ root.comment.map(_.msg).getOrElse("") :+ """*/
@@ -381,7 +381,7 @@ object """ :+ name :+ """ extends BaseScalaTemplate[""" :+ resultType :+ """,For
             p.name.toString + Option(p.tpt.toString).filter(_.startsWith("_root_.scala.<repeated>")).map(_ => ":_*").getOrElse("")
           }.mkString(",") + ")").mkString)
 
-        var templateType = "play.api.templates.Template%s[%s%s]".format(
+        var templateType = "play.api.twirl.Template%s[%s%s]".format(
           params.flatten.size,
           params.flatten.map {
             case a if a.symbol.isByNameParam => a.tpt.children(1).toString

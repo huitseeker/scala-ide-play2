@@ -1,4 +1,4 @@
-package play.templates
+package play.twirl
 
 import scala.util.parsing.input.Positional
 

@@ -7,6 +7,6 @@
 	<classpathentry kind="lib" path="target/lib/scala-arm.jar"/>
 	<classpathentry kind="lib" path="target/lib/scala-io-core.jar"/>
 	<classpathentry kind="lib" path="target/lib/scala-io-file.jar"/>
-	<classpathentry kind="lib" path="target/lib/templates.jar"/>
+	<classpathentry kind="lib" path="/home/huitseeker/Scala/scala-ide-play2/org.scala-ide.play2/target/lib/twirl-compiler.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
