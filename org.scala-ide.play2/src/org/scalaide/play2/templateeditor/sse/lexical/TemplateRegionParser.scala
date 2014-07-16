@@ -41,7 +41,6 @@ import org.eclipse.wst.sse.core.internal.provisional.events.RegionChangedEvent
 import org.eclipse.wst.sse.core.internal.util.Debug
 import org.eclipse.wst.xml.core.internal.parser.regions.RegionUpdateRule
 import org.eclipse.wst.sse.core.internal.util.Utilities
-import play.templates.ScalaTemplateParser
 import org.eclipse.jface.text.TypedRegion
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
@@ -254,7 +253,7 @@ class TemplateTextRegionsComputer(documentContent: String) extends HasLogger {
 
     // add text regions up to leftTextRegion
     val regionsBefore = textRegions.takeWhile(_ != leftTextRegion)
-    
+
     // `originalAdjustment` is calculated via the region.getLength, but it's possible that getLength > getTextLength
     // which can cause the text length to be negative if `originalAdjustment` is applied to it. This prevents that from happening.
     def textLengthAdjustment(region: ITextRegion, originalAdjustment: Int) =
@@ -363,7 +362,7 @@ class TemplateTextRegionsComputer(documentContent: String) extends HasLogger {
         else if (rightOverlap) {
           scalaRegions += copyScalaRegion(tr, newLength = Some(tr.getLength() - (trGlobalEnd - endEffectedOffset)))
           // don't increment currentTextRegion because it might also be used by the next structured document
-        } // the scala text region fully encompasses the doc region 
+        } // the scala text region fully encompasses the doc region
         else if (overspan) {
           scalaRegions += copyScalaRegion(tr, Some(0), Some(effectedDocRegion.getLength()))
           // don't increment currentTextRegion because it might also be used by the next structured document
@@ -390,7 +389,7 @@ class TemplateTextRegionsComputer(documentContent: String) extends HasLogger {
     // there can be gaps.. so create new doc regions for the gaps
     if (fillGaps) {
       for (i <- 0 to (result.length - 2)) {
-        val ((l, lstart, lend), (r, rstart, _)) = result(i) -> result(i + 1)
+        val ((l, _, lend), (r, rstart, _)) = result(i) -> result(i + 1)
         if (lend != rstart) {
           val newRegion = new BasicStructuredDocumentRegion
           newRegion.addRegion(new ContextRegion(TemplateDocumentRegions.UNDEFINED, 0, rstart - lend, rstart - lend))
@@ -411,7 +410,7 @@ class TemplateTextRegionsComputer(documentContent: String) extends HasLogger {
 
 /**
  * Converts the passed `tokens` into `TemplateTextRegion`.
- * 
+ *
  * This class is not thread-safe.
  *
  *  @param documentContent The document's content.

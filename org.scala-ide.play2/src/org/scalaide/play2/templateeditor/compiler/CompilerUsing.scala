@@ -1,16 +1,20 @@
 package org.scalaide.play2.templateeditor.compiler
 
 import java.io.File
+
 import scala.util.Failure
 import scala.util.Try
+
+import org.eclipse.jdt.core.compiler.IProblem
+import org.eclipse.jdt.internal.compiler.problem.DefaultProblem
+import org.eclipse.jdt.internal.compiler.problem.ProblemSeverities
+import org.scalaide.logging.HasLogger
 import org.scalaide.play2.PlayProject
+
 import play.templates.GeneratedSourceVirtual
 import play.templates.ScalaTemplateCompiler
-import play.templates.ScalaTemplateCompiler._
 import play.templates.TemplateCompilationError
 import scalax.file.Path
-import org.scalaide.play2.properties.PlayPreferences
-import org.scalaide.logging.HasLogger
 /**
  * a helper for using template compiler
  */

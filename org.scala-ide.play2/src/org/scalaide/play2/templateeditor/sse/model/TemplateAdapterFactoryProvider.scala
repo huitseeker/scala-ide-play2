@@ -1,7 +1,6 @@
 package org.scalaide.play2.templateeditor.sse.model
 
 import org.eclipse.wst.html.ui.internal.contentoutline.JFaceNodeAdapterFactoryForHTML
-import org.eclipse.wst.jsdt.web.core.javascript.IJsTranslation
 import org.eclipse.wst.jsdt.web.core.javascript.JsTranslationAdapterFactory
 import org.eclipse.wst.sse.core.internal.ltk.modelhandler.IDocumentTypeHandler
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel
@@ -10,7 +9,7 @@ import org.eclipse.wst.sse.ui.internal.provisional.registry.AdapterFactoryProvid
 import org.eclipse.wst.sse.ui.internal.util.Assert
 
 class TemplateAdapterFactoryProvider extends AdapterFactoryProvider {
-  
+
   override def addAdapterFactories(structuredModel: IStructuredModel) = {
     val factoryRegistry = structuredModel.getFactoryRegistry()
     Assert.isNotNull(factoryRegistry, "Program error: client caller must ensure model has factory registry")
@@ -26,6 +25,6 @@ class TemplateAdapterFactoryProvider extends AdapterFactoryProvider {
     case _: TemplateModelHandler => true
     case _ => false
   }
-  
+
   override def reinitializeFactories(structuredModel: IStructuredModel) = { }
 }

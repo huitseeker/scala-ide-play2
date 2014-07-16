@@ -40,7 +40,7 @@ class TemplatePresentationCompiler(playProject: PlayProject) extends HasLogger {
   }
 
   /**
-   * Returns scala batch source file (which is a virtual file) which is 
+   * Returns scala batch source file (which is a virtual file) which is
    * the result of compiling the given template compilation unit
    */
   def scalaFileFromTCU(tcu: TemplateCompilationUnit): Try[BatchSourceFile] = {
@@ -56,7 +56,7 @@ class TemplatePresentationCompiler(playProject: PlayProject) extends HasLogger {
         val problems = scalaProject.withPresentationCompiler(pc => pc.problemsOf(src.file))()
         def mapOffset(offset: Int) = generatedSource.mapPosition(offset)
         def mapLine(line: Int) = generatedSource.mapLine(line)
-        problems map (p => p match {
+        problems map {
           // problems of the generated scala file
           case problem: DefaultProblem => new DefaultProblem(
             tcu.getTemplateFullPath.toCharArray(),
@@ -68,17 +68,17 @@ class TemplatePresentationCompiler(playProject: PlayProject) extends HasLogger {
             mapOffset(problem.getSourceEnd()),
             mapLine(problem.getSourceLineNumber()),
             1)
-        })
+        }
 
-      case Failure(parseError: TemplateToScalaCompilationError) => 
+      case Failure(parseError: TemplateToScalaCompilationError) =>
         List(parseError.toProblem)
 
-      case Failure(error) => 
+      case Failure(error) =>
         logger.error(s"Unexpected error while parsing template ${tcu.file.name}", error)
         List(unknownError(tcu, error))
     }
   }
-  
+
   private def unknownError(tcu: TemplateCompilationUnit, error: Throwable): IProblem = {
     val severityLevel = ProblemSeverities.Error
     val message = s"${error.getMessage()} - ${error.getClass()}"

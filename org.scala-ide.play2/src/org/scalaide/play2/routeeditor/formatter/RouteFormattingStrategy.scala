@@ -122,7 +122,6 @@ object RouteFormattingStrategy {
 class RouteFormattingStrategy(val editor: ITextEditor) extends IFormattingStrategy with IFormattingStrategyExtension {
 
   private var document: IDocument = _
-
   private var regionOpt: Option[IRegion] = None
 
   def formatterStarts(context: IFormattingContext) {
@@ -163,11 +162,6 @@ class RouteFormattingStrategy(val editor: ITextEditor) extends IFormattingStrate
   def formatterStops() {
     this.document = null
     this.regionOpt = None
-  }
-
-  private def getProject = {
-    import EclipseUtils._
-    editor.getEditorInput.asInstanceOf[IAdaptable].adaptTo[IResource].getProject
   }
 
   def format(content: String, isLineStart: Boolean, indentation: String, positions: Array[Int]): String = null

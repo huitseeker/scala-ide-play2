@@ -70,7 +70,7 @@ class TemplateCompilationUnitTest {
   def error_on_position_zero_no_crash() {
     val tFile = file("app/views/template_unclosed_comment.scala.html")
     val tu = TemplateCompilationUnit(tFile, false)
-    val errors = tu.reconcile(tu.getTemplateContents.toString)
+    val errors = tu.reconcile(tu.getTemplateContents)
     assertEquals("Unexpected errors", 1, errors.size)
     assertTrue("Negative offset", errors.head.getSourceStart() >= 0)
   }
@@ -93,7 +93,6 @@ class TemplateCompilationUnitTest {
     assertFalse("The test project should not have the Scala nature at this point.", project.hasScalaNature)
 
     val indexFile = file("app/views/index.scala.html")
-    val templateCU = TemplateCompilationUnit(indexFile, false)
 
     assertTrue("Creating a `TemplateCompilationUnit` should force the underlying project to automatically add the Scala nature.", project.hasScalaNature)
   }
