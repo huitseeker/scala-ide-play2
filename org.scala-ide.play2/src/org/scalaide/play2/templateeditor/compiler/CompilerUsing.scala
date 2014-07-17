@@ -11,7 +11,6 @@ import org.scalaide.logging.HasLogger
 import org.scalaide.play2.PlayProject
 import play.twirl.compiler.GeneratedSourceVirtual
 import play.twirl.compiler.TwirlCompiler
-import play.twirl.compiler.TwirlCompiler._
 import play.twirl.compiler.TemplateCompilationError
 import org.scalaide.play2.properties.PlayPreferences
 import org.scalaide.logging.HasLogger
@@ -89,7 +88,10 @@ case class TemplateToScalaCompilationError(source: File, message: String, offset
 
 object PositionHelper {
   def convertLineColumnToOffset(source: File, line: Int, column: Int): Int = {
-    convertLineColumnToOffset(scala.io.Source.fromFile(source).mkString, line, column)
+    val s = scala.io.Source.fromFile(source)
+    try{
+      convertLineColumnToOffset(s.mkString, line, column)
+    } finally {s.close()}
   }
 
   def convertLineColumnToOffset(content: String, line: Int, column: Int): Int = {

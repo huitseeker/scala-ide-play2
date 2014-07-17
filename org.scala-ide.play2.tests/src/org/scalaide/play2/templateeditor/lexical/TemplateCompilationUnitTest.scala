@@ -92,8 +92,6 @@ class TemplateCompilationUnitTest {
 
     assertFalse("The test project should not have the Scala nature at this point.", project.hasScalaNature)
 
-    val indexFile = file("app/views/index.scala.html")
-
     assertTrue("Creating a `TemplateCompilationUnit` should force the underlying project to automatically add the Scala nature.", project.hasScalaNature)
   }
 

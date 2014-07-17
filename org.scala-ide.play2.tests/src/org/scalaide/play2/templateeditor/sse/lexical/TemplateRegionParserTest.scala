@@ -20,14 +20,14 @@ import org.eclipse.wst.xml.core.internal.parser.regions.TagCloseRegion
 import org.eclipse.wst.sse.core.internal.parser.ContextRegion
 
 class TemplateRegionParserTest {
-  
+
   private def docR(length: Int, tpe: String, textRegions: Seq[ITextRegion] = List()): IStructuredDocumentRegion = {
     val region = new BasicStructuredDocumentRegion { override def getType() = tpe }
     region.setLength(length)
     addTextRegions(region, textRegions)
     region
   }
-  
+
   private def tr[T <: ITextRegion](textRegions: T*): List[T] = {
     textRegions.sliding(2) foreach {
       case Seq(l, r) => r.adjustStart(l.getEnd())
@@ -35,7 +35,7 @@ class TemplateRegionParserTest {
     }
     textRegions.toList
   }
-  
+
   private def comment(length: Int) = new TemplateTextRegion(COMMENT, 0, length, length)
   private def at = new TemplateTextRegion(MAGIC_AT, 0, 1, 1)
   private def bk = new TemplateTextRegion(ScalaSyntaxClasses.BRACKET, 0, 1, 1)
@@ -44,7 +44,7 @@ class TemplateRegionParserTest {
   private def kw(length: Int) = new TemplateTextRegion(ScalaSyntaxClasses.KEYWORD, 0, length, length)
   private def oth(length: Int) = new TemplateTextRegion(ScalaSyntaxClasses.DEFAULT, 0, length, length)
   private def str(length: Int) = new TemplateTextRegion(ScalaSyntaxClasses.STRING, 0, length, length)
-    
+
   private def xmlcontent(length: Int) = new XMLContentRegion(0, length)
   private def xmlto(length: Int) = new TagOpenRegion(0, length, length)
   private def xmltc = new TagCloseRegion(0)
@@ -52,7 +52,7 @@ class TemplateRegionParserTest {
   private def xmltan(length: Int) = new AttributeNameRegion(0, length, length)
   private def xmltav(length: Int) = new AttributeValueRegion(0, length, length)
   private def xmltae = new AttributeEqualsRegion(0, 1, 1)
-  
+
   private def ctx(length: Int) = new ContextRegion("UNDEFINED", 0, length, length)
 
   private def addTextRegions(doc: IStructuredDocumentRegion, textRegions: Seq[ITextRegion]): Unit =
@@ -67,59 +67,59 @@ class TemplateRegionParserTest {
     for (region <- parser.templateRegions.textRegions.asScala)
       assertTrue(s"ITextRegion found with negative text length: $region", region.getTextLength >= 0)
   }
-    
+
   @Test
   def reuseableCodeBlock() = {
     val p = "@foo = {\n}"
     val e = tr(docR(10, oth(1).getType(), tr(at, oth(3), xmlcontent(3), bc, xmlcontent(1), bc)))
     performChecks(e, p)
   }
-  
+
   @Test
   def pureReuseableCodeBlock() = {
     val p = "@foo = @{\n}"
     val e = tr(docR(11, oth(1).getType(), tr(at, oth(3), xmlcontent(3), at, bk, oth(1), bk)))
     performChecks(e, p)
   }
-  
+
   @Test
   def multipleSpannedDocRegions() = {
     val p = "foo@{true && false} "
-    val e = 
+    val e =
       tr(docR(10, at.getType(), tr(xmlcontent(3), at, bk, kw(4), oth(1))),
          docR(1, op().getType(), tr(op())),
          docR(9, oth(1).getType(), tr(op(), oth(1), kw(5), bk, xmlcontent(1))))
     performChecks(e, p)
   }
-    
+
   @Test
   def commentTest() = {
     val p1 = "@*comment*@"
     val e1 = tr(docR(11, COMMENT_DOC_REGION, tr(comment(11))))
     performChecks(e1, p1)
   }
-  
+
   @Test
   def htmlTest() = {
     val p2 = "<html></html>"
     val e2 = tr(docR(6, XML_TAG_NAME), docR(7, XML_TAG_NAME))
     performChecks(e2, p2, true)
   }
-    
+
   @Test
   def simpleScalaTest() = {
     val p3 = """@obj.method("s")"""
     val e3 = tr(docR(16, SCALA_DOC_REGION, tr(at, oth(3), op(), oth(6), bk, str(3), bk)))
     performChecks(e3, p3)
   }
-    
+
   @Test
   def simpleScalaBlockTest() = {
     val p4 = """@{val foo = ""}"""
     val e4 = tr(docR(15, SCALA_DOC_REGION, tr(at, bk, kw(3), oth(1), oth(3), oth(1), op(), oth(1), str(2), bk)))
     performChecks(e4, p4)
   }
-    
+
   @Test
   def zeroLengthTest() = {
     val p5 = ""
@@ -133,7 +133,7 @@ class TemplateRegionParserTest {
     val e6 = tr(docR(1, XML_CONTENT))
     performChecks(e6, p6, true)
   }
-  
+
   @Test
   def complexTest() = {
     val p =
@@ -147,14 +147,15 @@ class TemplateRegionParserTest {
               tr(xmlto(1), xmltn(5), xmltan(11), xmltae, xmltav(1), at, oth(6), op(), oth(11), op(), oth(6), bk, oth(4), bk,
                  op(), oth(12), bk, kw(4), bk, xmltav(2), xmltan(9), xmltae, xmltav(1), at, oth(4), xmltav(1), xmltc)),
          docR(2, bc.getType(), tr(xmlcontent(1), bc)))
+    performChecks(e,p)
   }
-  
+
   @Test
   def jsScriptTest() = {
     val p = """<script type="text/javascript">function f() { return 0 }</script>"""
     performChecks(tr(docR(31, XML_TAG_NAME), docR(25, BLOCK_TEXT), docR(9, XML_TAG_NAME)), p, true)
   }
-  
+
   /** ticket github#186
    *  `@importSomething` should not be parsed as an import statement.
    */
@@ -166,12 +167,12 @@ class TemplateRegionParserTest {
 
 
   }
-  
+
   private def performChecks(expected: List[IStructuredDocumentRegion], code: String, pureHTML: Boolean = false) = {
     val parser = new TemplateRegionParser
     parser.reset(code)
     val actual = parser.templateRegions.structuredRegions.toList
-    
+
     @tailrec
     def noOverlap(list: List[ITextRegion]): Boolean = {
       list match {
@@ -182,7 +183,7 @@ class TemplateRegionParserTest {
         case _ => true
       }
     }
-    
+
     def complete(regions: List[ITextRegion], expectedLength: Int): Boolean = {
       def testComplete(start: Int, list: List[ITextRegion]): Boolean = {
         list match {
@@ -192,10 +193,10 @@ class TemplateRegionParserTest {
       }
       testComplete(0, regions)
     }
-    
+
     def regionsAreSame(left: ITextRegion, right: ITextRegion): Boolean =
       left.getStart() == right.getStart() && left.getEnd() == right.getEnd() && left.getType() == right.getType()
-    
+
     assertTrue("Document regions has overlap", noOverlap(actual))
     assertTrue("Document regions are not complete", complete(actual, code.length()))
     if (actual.size == expected.size) {

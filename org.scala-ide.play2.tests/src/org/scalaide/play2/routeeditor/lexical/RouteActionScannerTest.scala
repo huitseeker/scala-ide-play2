@@ -1,13 +1,12 @@
 package org.scalaide.play2.routeeditor.lexical
 
 import org.eclipse.jface.text.Document
-import org.eclipse.jface.text.rules.IToken
 import org.eclipse.jface.text.rules.Token
 import org.junit.Test
 
 class RouteActionScannerTest extends AbstractRouteScannerTest {
   override val scanner = new RouteActionScanner(prefStore)
-  
+
   val packageToken = scanner.asInstanceOf[RouteActionScanner].packageToken
   val classToken = scanner.asInstanceOf[RouteActionScanner].classToken
   val methodToken = scanner.asInstanceOf[RouteActionScanner].methodToken
@@ -92,7 +91,7 @@ class RouteActionScannerTest extends AbstractRouteScannerTest {
 	  val content = "test.test1.Class.show()"
 			  val document = new Document(content)
 	  scanner.setRange(document, 0, content.length)
-	  
+
 	  check(packageToken)
 	  check(classToken)
 	  check(defaultToken)
@@ -105,7 +104,7 @@ class RouteActionScannerTest extends AbstractRouteScannerTest {
 	  val content = "test.test1.t_2.t__3.tAt.Class.show()"
 			  val document = new Document(content)
 	  scanner.setRange(document, 0, content.length)
-	  
+
 	  check(packageToken)
 	  check(classToken)
 	  check(defaultToken)

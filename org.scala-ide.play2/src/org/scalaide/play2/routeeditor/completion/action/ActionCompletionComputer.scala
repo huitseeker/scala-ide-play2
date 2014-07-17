@@ -45,7 +45,7 @@ class ActionCompletionComputer(compiler: ScalaPresentationCompiler) {
     val name = member.decodedName
     member match {
       case m: compiler.MethodSymbol =>
-        lazy val defaultFormattedParamss = m.paramss.flatten.map(param => (param.decodedName.toString, param.tpe.toString))
+        lazy val defaultFormattedParamss = m.paramss.flatten.map(param => (param.decodedName, param.tpe.toString))
         val formattedParamss = m.isJava match {
           case true  => {
             val paramNames = compiler.getJavaElement(m) map {
@@ -60,7 +60,7 @@ class ActionCompletionComputer(compiler: ScalaPresentationCompiler) {
         }
         val controllerMethod = ControllerMethod.apply(member.fullNameString, formattedParamss).toRouteCallSyntax
         val fullyQualifiedMethodCall = {
-          // remove empty-parens if member was declared with no-parens. This is nice in general, and especially when when completing Action val. 
+          // remove empty-parens if member was declared with no-parens. This is nice in general, and especially when when completing Action val.
           if (m.paramss.isEmpty && controllerMethod.endsWith("()")) controllerMethod.substring(0, controllerMethod.length - 2)
           else controllerMethod
         }
