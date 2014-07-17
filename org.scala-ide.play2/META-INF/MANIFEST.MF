@@ -45,12 +45,13 @@ Require-Bundle:
  org.scala-lang.modules.scala-parser-combinators
 Import-Package: 
  com.ibm.icu.text;apply-aspects:=false;org.eclipse.swt.graphics;apply-aspects:=false,
- scala.tools.eclipse.contribution.weaving.jdt.ui.javaeditor.formatter;apply-aspects:=false
+ scala.tools.eclipse.contribution.weaving.jdt.ui.javaeditor.formatter;apply-aspects:=false,
+ scala.xml,
+ scala.util.parsing.input
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Activator: org.scalaide.play2.PlayPlugin
 Bundle-ClassPath: .,
- target/lib/play.jar,
- target/lib/scala-arm.jar,
- target/lib/scala-io-core.jar,
- target/lib/scala-io-file.jar,
- target/lib/templates.jar
+ target/lib/scala-io-core_2.11.jar,
+ target/lib/scala-io-file_2.11.jar,
+ target/lib/twirl-compiler_2.11.jar,
+ target/lib/twirl-parser_2.11.jar

@@ -1,7 +1,6 @@
 package org.scalaide.play2.templateeditor.compiler
 
 import java.io.File
-
 import scala.util.Failure
 import scala.util.Try
 
@@ -10,16 +9,18 @@ import org.eclipse.jdt.internal.compiler.problem.DefaultProblem
 import org.eclipse.jdt.internal.compiler.problem.ProblemSeverities
 import org.scalaide.logging.HasLogger
 import org.scalaide.play2.PlayProject
-
-import play.templates.GeneratedSourceVirtual
-import play.templates.ScalaTemplateCompiler
-import play.templates.TemplateCompilationError
-import scalax.file.Path
+import play.twirl.compiler.GeneratedSourceVirtual
+import play.twirl.compiler.TwirlCompiler
+import play.twirl.compiler.TwirlCompiler._
+import play.twirl.compiler.TemplateCompilationError
+import org.scalaide.play2.properties.PlayPreferences
+import org.scalaide.logging.HasLogger
+import scala.io.Codec
 /**
  * a helper for using template compiler
  */
 object CompilerUsing extends HasLogger {
-  val templateCompiler = ScalaTemplateCompiler
+  val templateCompiler = TwirlCompiler
   val defaultTemplateImports = """
 import models._
 import controllers._
@@ -48,6 +49,7 @@ import views.html._
         "play.api.templates.Html",
         "play.api.templates.HtmlFormat",
         defaultTemplateImports + playProject.additionalTemplateImports(extension),
+        Codec.default,
         inclusiveDot
       )
     } recoverWith {
@@ -87,7 +89,7 @@ case class TemplateToScalaCompilationError(source: File, message: String, offset
 
 object PositionHelper {
   def convertLineColumnToOffset(source: File, line: Int, column: Int): Int = {
-    convertLineColumnToOffset(Path(source).string, line, column)
+    convertLineColumnToOffset(scala.io.Source.fromFile(source).mkString, line, column)
   }
 
   def convertLineColumnToOffset(content: String, line: Int, column: Int): Int = {
